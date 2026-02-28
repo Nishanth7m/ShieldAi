@@ -19,10 +19,27 @@ from config import Settings
 
 _init_lock = threading.Lock()
 _initialized_paths: set[str] = set()
+_memory_conn: sqlite3.Connection | None = None
 
 
 def _connect(db_path: str) -> sqlite3.Connection:
     """Create a SQLite connection with recommended settings."""
+
+    global _memory_conn
+
+    if db_path == ":memory:":
+        # Single shared in-memory database for the whole process.
+        if _memory_conn is None:
+            conn = sqlite3.connect(
+                db_path,
+                check_same_thread=False,
+                isolation_level=None,  # autocommit; we use explicit BEGIN for transactions
+                timeout=30,
+            )
+            conn.row_factory = sqlite3.Row
+            conn.execute("PRAGMA foreign_keys=ON;")
+            _memory_conn = conn
+        return _memory_conn
 
     conn = sqlite3.connect(
         db_path,
@@ -31,7 +48,7 @@ def _connect(db_path: str) -> sqlite3.Connection:
         timeout=30,
     )
     conn.row_factory = sqlite3.Row
-    # Better concurrency / reliability on SQLite
+    # Better concurrency / reliability on SQLite (not needed/used for :memory:)
     conn.execute("PRAGMA journal_mode=WAL;")
     conn.execute("PRAGMA synchronous=NORMAL;")
     conn.execute("PRAGMA foreign_keys=ON;")
@@ -51,14 +68,17 @@ def get_connection(settings: Settings) -> Iterator[sqlite3.Connection]:
     try:
         yield conn
     finally:
-        conn.close()
+        # Keep shared in-memory database alive for the lifetime of the process.
+        if settings.database_path != ":memory:":
+            conn.close()
 
 
 def initialize_database(settings: Settings) -> None:
     """Initialize the database schema if it hasn't been created yet."""
 
     db_path = settings.database_path
-    Path(db_path).parent.mkdir(parents=True, exist_ok=True)
+    if db_path != ":memory:":
+        Path(db_path).parent.mkdir(parents=True, exist_ok=True)
 
     with _init_lock:
         if db_path in _initialized_paths:
@@ -162,7 +182,8 @@ def initialize_database(settings: Settings) -> None:
             conn.execute("ROLLBACK;")
             raise
         finally:
-            conn.close()
+            if db_path != ":memory:":
+                conn.close()
 
         _initialized_paths.add(db_path)
 
