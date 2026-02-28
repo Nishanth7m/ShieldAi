@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShieldAI | Create account</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+      .grid-bg {
+        background-image: radial-gradient(circle at 1px 1px, rgba(16, 185, 129, 0.12) 1px, transparent 0);
+        background-size: 22px 22px;
+      }
+      .glow {
+        box-shadow: 0 0 0.75rem rgba(16, 185, 129, 0.15), 0 0 2rem rgba(34, 211, 238, 0.08);
+      }
+      .meter > span {
+        width: 0%;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-zinc-950 text-zinc-100">
+    <div class="grid-bg min-h-screen">
+      <header class="border-b border-emerald-500/10 bg-zinc-950/70 backdrop-blur">
+        <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+          <a href="/" class="flex items-center gap-3">
+            <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-emerald-400/30 to-cyan-400/10 p-[1px] glow">
+              <div class="flex h-full w-full items-center justify-center rounded-xl bg-zinc-950">
+                <svg viewBox="0 0 24 24" class="h-6 w-6 text-emerald-300" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4Z" />
+                  <path d="M9 12l2 2 4-5" />
+                </svg>
+              </div>
+            </div>
+            <div>
+              <div class="text-lg font-semibold tracking-wide">ShieldAI</div>
+              <div class="text-xs text-zinc-400">Create your account</div>
+            </div>
+          </a>
+          <div class="flex items-center gap-2">
+            <a href="/login" class="rounded-xl border border-zinc-800 bg-zinc-950/60 px-3 py-2 text-sm text-zinc-200 hover:bg-zinc-900">Sign in</a>
+          </div>
+        </div>
+      </header>
+
+      <main class="mx-auto flex max-w-6xl items-center justify-center px-4 py-10">
+        <div class="w-full max-w-xl">
+          <section class="glow rounded-3xl border border-zinc-800 bg-zinc-950/60 p-6 sm:p-8">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <h2 class="text-xl font-semibold">Create account</h2>
+                <p class="mt-1 text-sm text-zinc-400">Use email & password or Google.</p>
+              </div>
+              <a href="/login" class="text-sm text-zinc-400 hover:text-zinc-200">Sign in</a>
+            </div>
+
+            <div class="mt-5 space-y-4">
+              <div id="googleWrap" class="hidden">
+                <div id="googleBtn" class="flex justify-center"></div>
+                <div class="mt-3 flex items-center gap-3">
+                  <div class="h-px flex-1 bg-zinc-800"></div>
+                  <div class="text-xs text-zinc-500">or</div>
+                  <div class="h-px flex-1 bg-zinc-800"></div>
+                </div>
+              </div>
+
+              <form id="formSignup" class="space-y-3">
+                <div>
+                  <label for="email" class="text-xs text-zinc-400">Email</label>
+                  <input
+                    id="email"
+                    type="email"
+                    autocomplete="email"
+                    required
+                    class="mt-1 w-full rounded-2xl border border-zinc-800 bg-zinc-950/60 px-3 py-2 text-sm text-zinc-100 outline-none placeholder:text-zinc-600 focus:border-emerald-400/30"
+                    placeholder="you@example.com"
+                  />
+                </div>
+
+                <div>
+                  <div class="flex items-center justify-between">
+                    <label for="password" class="text-xs text-zinc-400">Password</label>
+                    <button type="button" id="togglePw" class="text-xs text-zinc-500 hover:text-zinc-300">Show</button>
+                  </div>
+                  <input
+                    id="password"
+                    type="password"
+                    autocomplete="new-password"
+                    required
+                    class="mt-1 w-full rounded-2xl border border-zinc-800 bg-zinc-950/60 px-3 py-2 text-sm text-zinc-100 outline-none placeholder:text-zinc-600 focus:border-emerald-400/30"
+                    placeholder="Create a strong password"
+                  />
+
+                  <div class="mt-3">
+                    <div class="flex items-center justify-between text-xs">
+                      <div class="text-zinc-500">Strength</div>
+                      <div id="strengthLabel" class="font-medium text-zinc-400">—</div>
+                    </div>
+                    <div class="meter mt-2 h-2 overflow-hidden rounded-full bg-zinc-900/70">
+                      <span id="strengthBar" class="block h-full rounded-full bg-zinc-700 transition-[width,background-color] duration-200"></span>
+                    </div>
+                  </div>
+
+                  <div class="mt-3 grid gap-2 text-xs">
+                    <div id="reqLen" class="flex items-center justify-between rounded-xl border border-zinc-800 bg-zinc-950/50 px-3 py-2 text-zinc-400">
+                      <span>12+ characters</span><span class="tabular-nums">—</span>
+                    </div>
+                    <div id="reqMix" class="flex items-center justify-between rounded-xl border border-zinc-800 bg-zinc-950/50 px-3 py-2 text-zinc-400">
+                      <span>3 of: lower / upper / number / symbol</span><span class="tabular-nums">—</span>
+                    </div>
+                    <div id="reqEmail" class="flex items-center justify-between rounded-xl border border-zinc-800 bg-zinc-950/50 px-3 py-2 text-zinc-400">
+                      <span>Doesn’t contain your email name</span><span class="tabular-nums">—</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <label for="confirm" class="text-xs text-zinc-400">Confirm password</label>
+                  <input
+                    id="confirm"
+                    type="password"
+                    autocomplete="new-password"
+                    required
+                    class="mt-1 w-full rounded-2xl border border-zinc-800 bg-zinc-950/60 px-3 py-2 text-sm text-zinc-100 outline-none placeholder:text-zinc-600 focus:border-emerald-400/30"
+                    placeholder="Repeat password"
+                  />
+                  <div id="matchHint" class="mt-2 text-xs text-zinc-500">—</div>
+                </div>
+
+                <div id="errorBox" class="hidden rounded-2xl border border-red-400/25 bg-red-500/10 px-3 py-2 text-sm text-red-200"></div>
+
+                <button
+                  id="btnSignup"
+                  type="submit"
+                  class="w-full rounded-2xl border border-emerald-400/20 bg-emerald-400/10 px-4 py-2 text-sm font-medium text-emerald-200 hover:bg-emerald-400/15"
+                >
+                  Create account
+                </button>
+              </form>
+
+              <div class="text-sm text-zinc-400">
+                Already have an account?
+                <a href="/login" class="text-emerald-200 hover:text-emerald-100">Sign in</a>
+              </div>
+            </div>
+
+            <footer class="mt-8 border-t border-zinc-800/80 pt-4 text-xs text-zinc-500">
+              © <span id="footerYear"></span> ShieldAI. All rights reserved.
+            </footer>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      const $ = (id) => document.getElementById(id);
+
+      const showError = (msg) => {
+        const box = $("errorBox");
+        if (!msg) {
+          box.classList.add("hidden");
+          box.textContent = "";
+          return;
+        }
+        box.textContent = msg;
+        box.classList.remove("hidden");
+      };
+
+      async function apiJson(path, options = {}) {
+        const res = await fetch(path, {
+          headers: { "Content-Type": "application/json", ...(options.headers || {}) },
+          ...options,
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.detail || "Request failed");
+        return data;
+      }
+
+      // If already authenticated, the server redirects /signup -> /
+
+      function setLoading(isLoading) {
+        const btn = $("btnSignup");
+        btn.disabled = isLoading;
+        btn.textContent = isLoading ? "Creating..." : "Create account";
+        btn.className = isLoading
+          ? "w-full rounded-2xl border border-emerald-400/20 bg-emerald-400/5 px-4 py-2 text-sm font-medium text-emerald-200/60"
+          : "w-full rounded-2xl border border-emerald-400/20 bg-emerald-400/10 px-4 py-2 text-sm font-medium text-emerald-200 hover:bg-emerald-400/15";
+      }
+
+      function scorePassword(pw, email) {
+        const s = { len: false, mix: 0, emailOk: true };
+        const p = pw || "";
+        s.len = p.length >= 12;
+        s.mix += /[a-z]/.test(p) ? 1 : 0;
+        s.mix += /[A-Z]/.test(p) ? 1 : 0;
+        s.mix += /[0-9]/.test(p) ? 1 : 0;
+        s.mix += /[^A-Za-z0-9]/.test(p) ? 1 : 0;
+
+        const local = (email || "").split("@")[0].toLowerCase().trim();
+        s.emailOk = !local || !p.toLowerCase().includes(local);
+
+        let score = 0;
+        score += s.len ? 1 : 0;
+        score += s.mix >= 3 ? 1 : 0;
+        score += s.mix === 4 ? 1 : 0;
+        score += s.emailOk ? 1 : 0;
+
+        return { ...s, score };
+      }
+
+      function renderStrength() {
+        const email = ($("email").value || "").trim();
+        const pw = $("password").value || "";
+        const conf = $("confirm").value || "";
+
+        const s = scorePassword(pw, email);
+        const bar = $("strengthBar");
+        const label = $("strengthLabel");
+
+        const pct = Math.round((s.score / 4) * 100);
+        bar.style.width = pct + "%";
+
+        let text = "Weak";
+        let color = "bg-red-500/70";
+        if (s.score >= 4) {
+          text = "Strong";
+          color = "bg-emerald-400/80";
+        } else if (s.score === 3) {
+          text = "Good";
+          color = "bg-cyan-400/70";
+        } else if (s.score === 2) {
+          text = "Fair";
+          color = "bg-yellow-400/70";
+        }
+        label.textContent = pw ? text : "—";
+        label.className = "font-medium " + (s.score >= 3 ? "text-emerald-200" : s.score === 2 ? "text-yellow-200" : "text-red-200");
+        bar.className = "block h-full rounded-full transition-[width,background-color] duration-200 " + (pw ? color : "bg-zinc-700");
+
+        const setReq = (id, ok) => {
+          const el = $(id);
+          const badge = ok ? "✓" : "—";
+          const cls = ok
+            ? "flex items-center justify-between rounded-xl border border-emerald-400/20 bg-emerald-400/10 px-3 py-2 text-emerald-200"
+            : "flex items-center justify-between rounded-xl border border-zinc-800 bg-zinc-950/50 px-3 py-2 text-zinc-400";
+          el.className = cls;
+          el.lastElementChild.textContent = badge;
+        };
+
+        setReq("reqLen", s.len);
+        setReq("reqMix", s.mix >= 3);
+        setReq("reqEmail", s.emailOk);
+
+        const match = conf && pw === conf;
+        $("matchHint").textContent = conf ? (match ? "Passwords match." : "Passwords do not match.") : "—";
+        $("matchHint").className = "mt-2 text-xs " + (conf ? (match ? "text-emerald-200" : "text-red-200") : "text-zinc-500");
+
+        return { strongEnough: s.len && s.mix >= 3 && s.emailOk, match: !conf || match };
+      }
+
+      async function initGoogle() {
+        try {
+          const cfg = await apiJson("/api/public-config");
+          const clientId = cfg.google_oauth_client_id;
+          if (!clientId || !window.google || !google.accounts || !google.accounts.id) return;
+
+          $("googleWrap").classList.remove("hidden");
+          google.accounts.id.initialize({
+            client_id: clientId,
+            callback: async (response) => {
+              try {
+                showError("");
+                await apiJson("/api/auth/google", { method: "POST", body: JSON.stringify({ credential: response.credential }) });
+                window.location.href = "/";
+              } catch (e) {
+                showError(String(e.message || e));
+              }
+            },
+            ux_mode: "popup",
+          });
+          google.accounts.id.renderButton($("googleBtn"), { theme: "outline", size: "large", text: "continue_with", shape: "pill" });
+        } catch {
+          // ignore
+        }
+      }
+
+      $("togglePw").addEventListener("click", () => {
+        const pw = $("password");
+        const conf = $("confirm");
+        const isPw = pw.type === "password";
+        pw.type = isPw ? "text" : "password";
+        conf.type = isPw ? "text" : "password";
+        $("togglePw").textContent = isPw ? "Hide" : "Show";
+      });
+
+      ["email", "password", "confirm"].forEach((id) => {
+        $(id).addEventListener("input", () => renderStrength());
+      });
+
+      $("formSignup").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        showError("");
+        const email = ($("email").value || "").trim();
+        const password = $("password").value || "";
+        const confirm = $("confirm").value || "";
+
+        const state = renderStrength();
+        if (!state.strongEnough) {
+          showError("Please choose a stronger password (12+ chars, 3/4 types, avoid email name).");
+          return;
+        }
+        if (password !== confirm) {
+          showError("Passwords do not match.");
+          return;
+        }
+
+        setLoading(true);
+        try {
+          await apiJson("/api/auth/signup", { method: "POST", body: JSON.stringify({ email, password }) });
+          window.location.href = "/";
+        } catch (err) {
+          showError(String(err.message || err));
+        } finally {
+          setLoading(false);
+        }
+      });
+
+      $("footerYear").textContent = String(new Date().getFullYear());
+      renderStrength();
+      initGoogle();
+    </script>
+  </body>
+</html>
+

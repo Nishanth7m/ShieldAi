@@ -1,0 +1,312 @@
+[
+  {
+    "category": "injection",
+    "name": "ignore_previous_instructions",
+    "regex": "(?i)\\bignore\\b.*\\b(previous|prior|above)\\b.*\\b(instructions|rules|messages)\\b"
+  },
+  {
+    "category": "injection",
+    "name": "forget_everything",
+    "regex": "(?i)\\bforget\\b.*\\b(everything|all prior|all previous)\\b"
+  },
+  {
+    "category": "injection",
+    "name": "new_instructions",
+    "regex": "(?i)\\bnew\\s+instructions\\s*:\\s*"
+  },
+  {
+    "category": "injection",
+    "name": "system_prompt_override",
+    "regex": "(?i)\\b(system|developer)\\s+(prompt|message)\\b.*\\b(override|replace|ignore)\\b"
+  },
+  {
+    "category": "injection",
+    "name": "override_policy",
+    "regex": "(?i)\\b(override|bypass)\\b.*\\b(policy|policies|safety|guardrails)\\b"
+  },
+  {
+    "category": "injection",
+    "name": "follow_these_instructions",
+    "regex": "(?i)\\bfollow\\s+(only\\s+)?these\\s+instructions\\b"
+  },
+  {
+    "category": "injection",
+    "name": "do_not_follow_above",
+    "regex": "(?i)\\b(do\\s+not|don't)\\s+(follow|obey)\\b.*\\b(above|previous)\\b"
+  },
+  {
+    "category": "injection",
+    "name": "priority_instructions",
+    "regex": "(?i)\\b(priority|highest\\s+priority)\\b.*\\b(instruction|rule)\\b"
+  },
+  {
+    "category": "injection",
+    "name": "system_tag_injection",
+    "regex": "(?i)<\\s*(system|developer)\\s*>[\\s\\S]*?<\\s*/\\s*(system|developer)\\s*>"
+  },
+  {
+    "category": "injection",
+    "name": "role_directive",
+    "regex": "(?i)\\byou\\s+are\\s+now\\s+(the\\s+)?(system|developer|admin|root|superuser)\\b"
+  },
+  {
+    "category": "injection",
+    "name": "nested_instructions",
+    "regex": "(?i)\\bwithin\\s+this\\s+message\\b.*\\b(ignore|override|replace)\\b"
+  },
+  {
+    "category": "injection",
+    "name": "tool_injection",
+    "regex": "(?i)\\b(use|call)\\b.*\\b(tool|function|plugin)\\b.*\\bto\\b.*\\bexfiltrate|leak|steal\\b"
+  },
+  {
+    "category": "jailbreak",
+    "name": "dan_do_anything_now",
+    "regex": "(?i)\\bDAN\\b|\\bdo\\s+anything\\s+now\\b"
+  },
+  {
+    "category": "jailbreak",
+    "name": "developer_mode",
+    "regex": "(?i)\\bdeveloper\\s+mode\\b|\\bdev\\s+mode\\b"
+  },
+  {
+    "category": "jailbreak",
+    "name": "unfiltered_mode",
+    "regex": "(?i)\\b(unfiltered|no\\s+filters|without\\s+restrictions)\\b"
+  },
+  {
+    "category": "jailbreak",
+    "name": "pretend_you_are",
+    "regex": "(?i)\\bpretend\\s+you\\s+are\\b|\\bact\\s+as\\b|\\brole\\s*play\\b"
+  },
+  {
+    "category": "jailbreak",
+    "name": "stay_in_character",
+    "regex": "(?i)\\bstay\\s+in\\s+character\\b"
+  },
+  {
+    "category": "jailbreak",
+    "name": "hypothetical_bypass",
+    "regex": "(?i)\\b(hypothetical|fictional)\\b.*\\b(no\\s+rules|ignore\\s+rules|bypass)\\b"
+  },
+  {
+    "category": "jailbreak",
+    "name": "safety_disabled",
+    "regex": "(?i)\\b(safety|alignment)\\b.*\\b(disabled|turned\\s+off|remove)\\b"
+  },
+  {
+    "category": "jailbreak",
+    "name": "two_personas",
+    "regex": "(?i)\\b(two\\s+responses|two\\s+personalities|as\\s+both)\\b"
+  },
+  {
+    "category": "jailbreak",
+    "name": "policy_as_joke",
+    "regex": "(?i)\\b(just\\s+kidding|as\\s+a\\s+joke)\\b.*\\b(illegal|harmful|unsafe)\\b"
+  },
+  {
+    "category": "jailbreak",
+    "name": "refusal_suppression",
+    "regex": "(?i)\\bdo\\s+not\\s+(refuse|decline)\\b|\\bnever\\s+say\\s+no\\b"
+  },
+  {
+    "category": "extraction",
+    "name": "repeat_system_prompt",
+    "regex": "(?i)\\brepeat\\b.*\\b(system\\s+prompt|system\\s+message)\\b"
+  },
+  {
+    "category": "extraction",
+    "name": "reveal_instructions",
+    "regex": "(?i)\\b(reveal|show|tell)\\b.*\\b(instructions|rules|prompt)\\b"
+  },
+  {
+    "category": "extraction",
+    "name": "what_are_your_instructions",
+    "regex": "(?i)\\bwhat\\s+are\\s+your\\s+(instructions|rules)\\b"
+  },
+  {
+    "category": "extraction",
+    "name": "print_configuration",
+    "regex": "(?i)\\bprint\\b.*\\b(configuration|config|settings)\\b"
+  },
+  {
+    "category": "extraction",
+    "name": "internal_policy",
+    "regex": "(?i)\\b(internal|private|hidden)\\b.*\\b(policy|prompt|rules)\\b"
+  },
+  {
+    "category": "extraction",
+    "name": "token_smuggling",
+    "regex": "(?i)\\b(token|tokens)\\b.*\\b(smuggle|leak|exfiltrate)\\b"
+  },
+  {
+    "category": "extraction",
+    "name": "secret_key_request",
+    "regex": "(?i)\\b(api\\s*key|secret|password|credentials)\\b.*\\b(reveal|share|show)\\b"
+  },
+  {
+    "category": "extraction",
+    "name": "system_prompt_as_codeblock",
+    "regex": "(?i)\\b(system\\s+prompt|developer\\s+message)\\b.*```"
+  },
+  {
+    "category": "exfiltration",
+    "name": "exfiltrate_data",
+    "regex": "(?i)\\b(exfiltrate|steal|leak|dump)\\b.*\\b(data|database|secrets|keys)\\b"
+  },
+  {
+    "category": "exfiltration",
+    "name": "send_to_url",
+    "regex": "(?i)\\b(send|post|upload)\\b.*\\b(to|into)\\b.*\\bhttps?://"
+  },
+  {
+    "category": "exfiltration",
+    "name": "read_local_files",
+    "regex": "(?i)\\b(read|open)\\b.*\\b(/etc/passwd|\\.env|id_rsa|credentials|secrets)\\b"
+  },
+  {
+    "category": "exfiltration",
+    "name": "browser_storage",
+    "regex": "(?i)\\b(localStorage|sessionStorage|cookies?)\\b.*\\b(exfiltrate|steal|dump)\\b"
+  },
+  {
+    "category": "encoding",
+    "name": "base64_indicator",
+    "regex": "(?i)\\bbase64\\b|\\bdecode\\b.*\\bbase64\\b"
+  },
+  {
+    "category": "encoding",
+    "name": "looks_like_base64_blob",
+    "regex": "(?i)\\b[A-Za-z0-9+/]{80,}={0,2}\\b"
+  },
+  {
+    "category": "encoding",
+    "name": "rot13",
+    "regex": "(?i)\\brot13\\b"
+  },
+  {
+    "category": "encoding",
+    "name": "hex_encoding",
+    "regex": "(?i)\\b0x[0-9a-f]{2,}\\b|\\bhex\\s+decode\\b"
+  },
+  {
+    "category": "encoding",
+    "name": "unicode_zero_width",
+    "regex": "[\\u200B-\\u200F\\u2060\\uFEFF]"
+  },
+  {
+    "category": "encoding",
+    "name": "unicode_homoglyphs",
+    "regex": "(?i)\\b(homoglyph|unicode\\s+substitution|confusables)\\b"
+  },
+  {
+    "category": "encoding",
+    "name": "leetspeak_bypass",
+    "regex": "(?i)\\b(1gn0re|pr3v10us|1nstruct10ns|rul3s)\\b"
+  },
+  {
+    "category": "encoding",
+    "name": "invisible_chars",
+    "regex": "(?i)\\b(zero\\s*width|invisible)\\b.*\\b(character|chars?)\\b"
+  },
+  {
+    "category": "encoding",
+    "name": "url_encoding",
+    "regex": "(%3C|%3E|%2F|%0A|%0D){3,}"
+  },
+  {
+    "category": "social_engineering",
+    "name": "authority_impersonation",
+    "regex": "(?i)\\b(i\\s+am|this\\s+is)\\b.*\\b(admin|moderator|developer|security|ceo|police|fbi)\\b"
+  },
+  {
+    "category": "social_engineering",
+    "name": "urgent_action",
+    "regex": "(?i)\\b(urgent|immediately|asap|right\\s+now)\\b.*\\b(do|need|must)\\b"
+  },
+  {
+    "category": "social_engineering",
+    "name": "trust_building",
+    "regex": "(?i)\\btrust\\s+me\\b|\\bfor\\s+research\\b|\\bfor\\s+educational\\s+purposes\\b"
+  },
+  {
+    "category": "social_engineering",
+    "name": "guilt_trip",
+    "regex": "(?i)\\bif\\s+you\\s+don't\\b.*\\b(happen|die|lose|fire)\\b"
+  },
+  {
+    "category": "social_engineering",
+    "name": "flattery_manipulation",
+    "regex": "(?i)\\byou\\s+are\\s+the\\s+only\\s+one\\b|\\byou\\s+must\\b.*\\bhelp\\b"
+  },
+  {
+    "category": "manipulation",
+    "name": "step_by_step_exploit",
+    "regex": "(?i)\\b(step\\s+by\\s+step|walk\\s+me\\s+through)\\b.*\\b(bypass|exploit|hack)\\b"
+  },
+  {
+    "category": "manipulation",
+    "name": "constraint_redefinition",
+    "regex": "(?i)\\b(define|redefine)\\b.*\\b(safe|allowed|policy)\\b"
+  },
+  {
+    "category": "manipulation",
+    "name": "hidden_instruction",
+    "regex": "(?i)\\b(hidden|secret)\\s+instruction\\b"
+  },
+  {
+    "category": "manipulation",
+    "name": "delimiter_confusion",
+    "regex": "(?i)\\b(###\\s*system|---\\s*system|BEGIN\\s+SYSTEM\\s+PROMPT)\\b"
+  },
+  {
+    "category": "manipulation",
+    "name": "instruction_conflict",
+    "regex": "(?i)\\b(conflicting|contradict)\\b.*\\b(instructions|rules)\\b"
+  },
+  {
+    "category": "manipulation",
+    "name": "self_referential_policy",
+    "regex": "(?i)\\b(the\\s+next\\s+message\\s+is\\s+from\\s+the\\s+system)\\b"
+  },
+  {
+    "category": "execution",
+    "name": "shell_command_request",
+    "regex": "(?i)\\b(run|execute)\\b.*\\b(cmd|command|powershell|bash|terminal)\\b"
+  },
+  {
+    "category": "execution",
+    "name": "sql_injection_language",
+    "regex": "(?i)\\b(drop\\s+table|union\\s+select|or\\s+1=1|--\\s)\\b"
+  },
+  {
+    "category": "execution",
+    "name": "prompt_leak_via_json",
+    "regex": "(?i)\\boutput\\s+exactly\\s+the\\s+json\\b.*\\b(system|developer)\\b"
+  },
+  {
+    "category": "jailbreak",
+    "name": "no_moral_constraints",
+    "regex": "(?i)\\bno\\s+(moral|ethical)\\s+constraints\\b"
+  },
+  {
+    "category": "jailbreak",
+    "name": "answer_without_refusing",
+    "regex": "(?i)\\banswer\\b.*\\bwithout\\s+refusing\\b"
+  },
+  {
+    "category": "jailbreak",
+    "name": "you_must_comply",
+    "regex": "(?i)\\byou\\s+must\\s+comply\\b"
+  },
+  {
+    "category": "jailbreak",
+    "name": "bypass_safety_filter",
+    "regex": "(?i)\\bbypass\\b.*\\b(safety\\s+filter|content\\s+filter)\\b"
+  },
+  {
+    "category": "injection",
+    "name": "override_after_delimiter",
+    "regex": "(?is)(^|[\\r\\n])\\s*(---|###)\\s*(new\\s+)?instructions\\s*(---|###)\\s*"
+  }
+]

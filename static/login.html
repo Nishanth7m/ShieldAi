@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShieldAI | Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+      .grid-bg {
+        background-image: radial-gradient(circle at 1px 1px, rgba(34, 211, 238, 0.12) 1px, transparent 0);
+        background-size: 22px 22px;
+      }
+      .glow {
+        box-shadow: 0 0 0.75rem rgba(34, 211, 238, 0.16), 0 0 2rem rgba(16, 185, 129, 0.08);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-zinc-950 text-zinc-100">
+    <div class="grid-bg min-h-screen">
+      <header class="border-b border-cyan-500/10 bg-zinc-950/70 backdrop-blur">
+        <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+          <a href="/" class="flex items-center gap-3">
+            <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-cyan-400/30 to-emerald-400/10 p-[1px] glow">
+              <div class="flex h-full w-full items-center justify-center rounded-xl bg-zinc-950">
+                <svg viewBox="0 0 24 24" class="h-6 w-6 text-cyan-300" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4Z" />
+                  <path d="M9 12l2 2 4-5" />
+                </svg>
+              </div>
+            </div>
+            <div>
+              <div class="text-lg font-semibold tracking-wide">ShieldAI</div>
+              <div class="text-xs text-zinc-400">Sign in to continue</div>
+            </div>
+          </a>
+          <div class="flex items-center gap-2">
+            <a href="/signup" class="rounded-xl border border-cyan-400/20 bg-cyan-400/10 px-3 py-2 text-sm text-cyan-200 hover:bg-cyan-400/15">Create account</a>
+          </div>
+        </div>
+      </header>
+
+      <main class="mx-auto flex max-w-6xl items-center justify-center px-4 py-10">
+        <div class="w-full max-w-xl">
+          <section class="glow rounded-3xl border border-zinc-800 bg-zinc-950/60 p-6 sm:p-8">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <h2 class="text-xl font-semibold">Sign in</h2>
+                <p class="mt-1 text-sm text-zinc-400">Use your email & password or Google.</p>
+              </div>
+              <a href="/signup" class="text-sm text-zinc-400 hover:text-zinc-200">Create account</a>
+            </div>
+
+            <div class="mt-5 space-y-4">
+              <div id="googleWrap" class="hidden">
+                <div id="googleBtn" class="flex justify-center"></div>
+                <div class="mt-3 flex items-center gap-3">
+                  <div class="h-px flex-1 bg-zinc-800"></div>
+                  <div class="text-xs text-zinc-500">or</div>
+                  <div class="h-px flex-1 bg-zinc-800"></div>
+                </div>
+              </div>
+
+              <form id="formLogin" class="space-y-3">
+                <div>
+                  <label for="email" class="text-xs text-zinc-400">Email</label>
+                  <input
+                    id="email"
+                    type="email"
+                    autocomplete="email"
+                    required
+                    class="mt-1 w-full rounded-2xl border border-zinc-800 bg-zinc-950/60 px-3 py-2 text-sm text-zinc-100 outline-none placeholder:text-zinc-600 focus:border-cyan-400/30"
+                    placeholder="you@example.com"
+                  />
+                </div>
+
+                <div>
+                  <div class="flex items-center justify-between">
+                    <label for="password" class="text-xs text-zinc-400">Password</label>
+                    <button type="button" id="togglePw" class="text-xs text-zinc-500 hover:text-zinc-300">Show</button>
+                  </div>
+                  <input
+                    id="password"
+                    type="password"
+                    autocomplete="current-password"
+                    required
+                    class="mt-1 w-full rounded-2xl border border-zinc-800 bg-zinc-950/60 px-3 py-2 text-sm text-zinc-100 outline-none placeholder:text-zinc-600 focus:border-cyan-400/30"
+                    placeholder="••••••••••••"
+                  />
+                </div>
+
+                <div id="errorBox" class="hidden rounded-2xl border border-red-400/25 bg-red-500/10 px-3 py-2 text-sm text-red-200"></div>
+
+                <button
+                  id="btnLogin"
+                  type="submit"
+                  class="w-full rounded-2xl border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-sm font-medium text-cyan-200 hover:bg-cyan-400/15"
+                >
+                  Sign in
+                </button>
+              </form>
+
+              <div class="text-sm text-zinc-400">
+                New to ShieldAI?
+                <a href="/signup" class="text-cyan-200 hover:text-cyan-100">Create an account</a>
+              </div>
+            </div>
+
+            <footer class="mt-8 border-t border-zinc-800/80 pt-4 text-xs text-zinc-500">
+              © <span id="footerYear"></span> ShieldAI. All rights reserved.
+            </footer>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      const $ = (id) => document.getElementById(id);
+      const showError = (msg) => {
+        const box = $("errorBox");
+        if (!msg) {
+          box.classList.add("hidden");
+          box.textContent = "";
+          return;
+        }
+        box.textContent = msg;
+        box.classList.remove("hidden");
+      };
+
+      async function apiJson(path, options = {}) {
+        const res = await fetch(path, {
+          headers: { "Content-Type": "application/json", ...(options.headers || {}) },
+          ...options,
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.detail || "Request failed");
+        return data;
+      }
+
+      function setLoading(isLoading) {
+        const btn = $("btnLogin");
+        btn.disabled = isLoading;
+        btn.textContent = isLoading ? "Signing in..." : "Sign in";
+        btn.className = isLoading
+          ? "w-full rounded-2xl border border-cyan-400/20 bg-cyan-400/5 px-4 py-2 text-sm font-medium text-cyan-200/60"
+          : "w-full rounded-2xl border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-sm font-medium text-cyan-200 hover:bg-cyan-400/15";
+      }
+
+      // If already authenticated, the server redirects /login -> /
+
+      async function initGoogle() {
+        try {
+          const cfg = await apiJson("/api/public-config");
+          const clientId = cfg.google_oauth_client_id;
+          if (!clientId || !window.google || !google.accounts || !google.accounts.id) return;
+
+          $("googleWrap").classList.remove("hidden");
+          google.accounts.id.initialize({
+            client_id: clientId,
+            callback: async (response) => {
+              try {
+                showError("");
+                await apiJson("/api/auth/google", { method: "POST", body: JSON.stringify({ credential: response.credential }) });
+                window.location.href = "/";
+              } catch (e) {
+                showError(String(e.message || e));
+              }
+            },
+            ux_mode: "popup",
+          });
+          google.accounts.id.renderButton($("googleBtn"), { theme: "outline", size: "large", text: "continue_with", shape: "pill" });
+        } catch {
+          // ignore
+        }
+      }
+
+      $("togglePw").addEventListener("click", () => {
+        const input = $("password");
+        const isPw = input.type === "password";
+        input.type = isPw ? "text" : "password";
+        $("togglePw").textContent = isPw ? "Hide" : "Show";
+      });
+
+      $("formLogin").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        showError("");
+        setLoading(true);
+        try {
+          const email = ($("email").value || "").trim();
+          const password = $("password").value || "";
+          await apiJson("/api/auth/login", { method: "POST", body: JSON.stringify({ email, password }) });
+          window.location.href = "/";
+        } catch (err) {
+          showError(String(err.message || err));
+        } finally {
+          setLoading(false);
+        }
+      });
+
+      $("footerYear").textContent = String(new Date().getFullYear());
+      initGoogle();
+    </script>
+  </body>
+</html>
+
